@@ -18,7 +18,7 @@ def populate_database():
             print("Database already populated. Skipping...\n")
             return
 
-        # Seed societies if they don't exist
+        # Seed societies
         if session.query(Society).count() == 0:
             societies_data = [
                 Society(name="Masaryk Society", room="7", week="A and B", time="1pm"),
@@ -31,15 +31,15 @@ def populate_database():
             session.add_all(societies_data)
             session.flush()
 
-        # Create houses
-        house_names = ["Eastgate", "Westbrook", "Northfield", "Southside"]
+        # create houses
+        house_names = ["Eastgate", "Westgate", "Fargate", "Southgate"]
         houses = [House(house_name=name) for name in house_names]
         session.add_all(houses)
         session.flush()
         
         print(f"Created {len(houses)} houses")
 
-        # Generate pupils (20 per house)
+        # fake pupils
         pupils = []
         for house in houses:
             for _ in range(20):

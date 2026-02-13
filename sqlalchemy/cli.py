@@ -53,6 +53,37 @@ def list_all_societies():
     finally:
         session.close()
 
+def choose_society(societies):
+    global selected_society
+    print("\nSocieties:")
+    for i, society in enumerate(societies, 1):
+        print(f"{i}. {society}")
+
+    try:
+        society_choice = int(input("\nSelect society (number): "))
+        if society_choice < 1 or society_choice > len(societies):
+            print("Invalid selection.")
+            return
+        selected_society = societies[society_choice - 1]
+    except ValueError:
+        print("Invalid input.")
+        return selected_society
+
+def choose_pupil(pupils):
+    global selected_pupil
+    print("\nPupils:")
+    for i, pupil in enumerate(pupils, 1):
+        print(f"{i}. {pupil}")
+
+    try:
+        pupil_choice = int(input("\nSelect pupil (number): "))
+        if pupil_choice < 1 or pupil_choice > len(pupils):
+            print("Invalid selection.")
+            return
+        selected_pupil = pupils[pupil_choice - 1]
+    except ValueError:
+        print("Invalid input.")
+        return selected_pupil
 
 def enrol_pupil_into_society():
     session = get_session()
@@ -64,33 +95,9 @@ def enrol_pupil_into_society():
             print("Not enough pupils or societies.")
             return
 
-        print("\nPupils:")
-        for i, pupil in enumerate(pupils, 1):
-            print(f"{i}. {pupil}")
+        choose_pupil(pupils)
 
-        try:
-            pupil_choice = int(input("\nSelect pupil (number): "))
-            if pupil_choice < 1 or pupil_choice > len(pupils):
-                print("Invalid selection.")
-                return
-            selected_pupil = pupils[pupil_choice - 1]
-        except ValueError:
-            print("Invalid input.")
-            return
-
-        print("\nSocieties:")
-        for i, society in enumerate(societies, 1):
-            print(f"{i}. {society}")
-
-        try:
-            society_choice = int(input("\nSelect society (number): "))
-            if society_choice < 1 or society_choice > len(societies):
-                print("Invalid selection.")
-                return
-            selected_society = societies[society_choice - 1]
-        except ValueError:
-            print("Invalid input.")
-            return
+        choose_society(societies)
 
         if selected_society in selected_pupil.societies:
             print("Already enrolled.")
@@ -110,19 +117,7 @@ def remove_pupil_from_society():
             print("No pupils found.")
             return
 
-        print("\nPupils:")
-        for i, pupil in enumerate(pupils, 1):
-            print(f"{i}. {pupil}")
-
-        try:
-            pupil_choice = int(input("\nSelect pupil (number): "))
-            if pupil_choice < 1 or pupil_choice > len(pupils):
-                print("Invalid selection.")
-                return
-            selected_pupil = pupils[pupil_choice - 1]
-        except ValueError:
-            print("Invalid input.")
-            return
+        choose_pupil(pupils)
 
         if not selected_pupil.societies:
             print("Not in any societies.")
@@ -156,19 +151,7 @@ def show_societies_for_pupil():
             print("No pupils found.")
             return
 
-        print("\nPupils:")
-        for i, pupil in enumerate(pupils, 1):
-            print(f"{i}. {pupil}")
-
-        try:
-            pupil_choice = int(input("\nSelect pupil (number): "))
-            if pupil_choice < 1 or pupil_choice > len(pupils):
-                print("Invalid selection.")
-                return
-            selected_pupil = pupils[pupil_choice - 1]
-        except ValueError:
-            print("Invalid input.")
-            return
+        choose_pupil(pupils)
 
         if not selected_pupil.societies:
             print(f"\n{selected_pupil.first_name} is not in any societies.")
@@ -188,19 +171,7 @@ def show_pupils_in_society():
             print("No societies found.")
             return
 
-        print("\nSocieties:")
-        for i, society in enumerate(societies, 1):
-            print(f"{i}. {society}")
-
-        try:
-            society_choice = int(input("\nSelect society (number): "))
-            if society_choice < 1 or society_choice > len(societies):
-                print("Invalid selection.")
-                return
-            selected_society = societies[society_choice - 1]
-        except ValueError:
-            print("Invalid input.")
-            return
+        choose_society(societies)
 
         if not selected_society.pupils:
             print(f"\n{selected_society.name} has no pupils.")
@@ -224,21 +195,21 @@ def main():
         print("6. Show pupils in society")
         print("7. Exit")
 
-        choice = input("\nChoice: ").strip()
+        c = input("\nChoice: ").strip()
 
-        if choice == "1":
+        if c == "1":
             list_all_pupils()
-        elif choice == "2":
+        elif c == "2":
             list_all_societies()
-        elif choice == "3":
+        elif c == "3":
             enrol_pupil_into_society()
-        elif choice == "4":
+        elif c == "4":
             remove_pupil_from_society()
-        elif choice == "5":
+        elif c == "5":
             show_societies_for_pupil()
-        elif choice == "6":
+        elif c == "6":
             show_pupils_in_society()
-        elif choice == "7":
+        elif c == "7":
             break
         else:
             print("Invalid choice.")

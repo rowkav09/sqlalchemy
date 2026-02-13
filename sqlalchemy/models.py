@@ -53,5 +53,4 @@ class Society(Base):
 
 
 def create_database():
-    """Initialize the database by creating all tables."""
     Base.metadata.create_all(engine)
